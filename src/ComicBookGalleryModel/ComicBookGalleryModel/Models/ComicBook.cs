@@ -18,8 +18,12 @@ namespace ComicBookGalleryModel.Models
         public DateTime PublishedOn { get; set; }
         public decimal? AverageRating { get; set; }
 
+        //public Series Series { get; set; } // Pre Loading-Related-Entities
+        //public ICollection<ComicBookArtist> Artists { get; set; } // Pre Loading-Related-Entities
+        //public virtual Series Series { get; set; }  //for lazy loading in Loading-Related-Entities
+        //public virtual ICollection<ComicBookArtist> Artists { get; set; }  //for lazy loading in Loading-Related-Entities
         public Series Series { get; set; }
-        public ICollection<ComicBookArtist> Artists { get; set; }
+        public virtual ICollection<ComicBookArtist> Artists { get; set; }
 
         //public int SeriesRefID { get; set; }  //if the foreign key has a nonconventional name use ForeignKey attribute on the foreign class
         //[ForeignKey("SeriesRefId")]
