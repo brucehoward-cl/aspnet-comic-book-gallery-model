@@ -13,28 +13,37 @@ namespace ComicBookGalleryModel
         {
             using (var context = new Context())
             {
-
                 context.Database.Log = (message) => Debug.WriteLine(message);
 
-                var comicBooks = context.ComicBooks
+                var comicBookId = 1;
+                //var comicBook1 = context.ComicBooks.Find(comicBookId);  //The find method will find entities that have been added to the context, but not saved (persisted) yet; but you cannot eagerly load with Find
+                //var comicBook2 = context.ComicBooks.Find(comicBookId);
+                var comicBook1 = context.ComicBooks.SingleOrDefault(cb => cb.Id == comicBookId);
 
-                    .ToList();
+                Debug.WriteLine("Changing Description property value");
+                comicBook1.Description = "New value!";
 
-                foreach (var comicBook in comicBooks)
-                {
-                    if (comicBook.Series == null)
-                    {
-                        context.Entry(comicBook)
-                               .Reference(cb => cb.Series)
-                               .Load();
-                    }
+                var comicBook2 = context.ComicBooks.SingleOrDefault(cb => cb.Id == comicBookId);
 
-                    var artistRoleNames = comicBook.Artists.Select(a => $"{a.Artist.Name} - {a.Role.Name}").ToList();
-                    var artistRolesDisplayText = string.Join(", ", artistRoleNames);
-                    Console.WriteLine(comicBook.DisplayText);
-                    Console.WriteLine(artistRolesDisplayText);
-                }
+                #region Pre Detail-Queries
+                //var comicBooks = context.ComicBooks.ToList();
 
+                //foreach (var comicBook in comicBooks)
+                //{
+                //    if (comicBook.Series == null)
+                //    {
+                //        context.Entry(comicBook)
+                //               .Reference(cb => cb.Series)
+                //               .Load();
+                //    }
+
+                //    var artistRoleNames = comicBook.Artists.Select(a => $"{a.Artist.Name} - {a.Role.Name}").ToList();
+                //    var artistRolesDisplayText = string.Join(", ", artistRoleNames);
+                //    Console.WriteLine(comicBook.DisplayText);
+                //    Console.WriteLine(artistRolesDisplayText);
+                //}
+
+                #endregion
                 #region PreLoading-Related-Entities
                 ////var comicBooks = context.ComicBooks
                 ////    .Include(cb => cb.Series)
@@ -94,6 +103,7 @@ namespace ComicBookGalleryModel
                 //}
 
                 #endregion
+
                 Console.ReadLine();
             }
 
